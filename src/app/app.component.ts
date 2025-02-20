@@ -2,9 +2,12 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
+  template: `
+  <app-header></app-header>
+  <router-outlet></router-outlet>
+  <app-footer></app-footer>
+  `,
   standalone: false,
-  styleUrl: './app.component.scss'
 })
 export class AppComponent {
   title = 'project-hr-system';
