@@ -9,7 +9,7 @@ import { RegisterModule } from './pages/register/register.module';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { RegisterComponent } from './pages/register/components/sign-up/register.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({

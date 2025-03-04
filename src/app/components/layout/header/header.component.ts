@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../core/services/auth2.service';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -19,12 +20,17 @@ import { Observable } from 'rxjs';
             <ng-container *ngIf="user$ | async as user; else guestButtons">
               <select class="text-[18px] outline-none w-full min-w-[120px]" (change)="onChange($event)">
                 <option>👋 {{ userName }}</option>
+                <option value="profile">Личный кабинет</option>
                 <option value="logout">Выход</option>
               </select>
-              <!-- Добавляем кнопку для работодателя -->
               <ng-container *ngIf="user.type === 'employer'">
                 <button routerLink="create-vacancy" class="bg-blue-500 text-white text-[16px] w-[300px] font-medium h-[52px] rounded-full">
                   Создать вакансию
+                </button>
+              </ng-container>
+              <ng-container *ngIf="user.type === 'jobSeeker'">
+                <button routerLink="create" class="bg-blue-500 text-white text-[16px] w-[300px] font-medium h-[52px] rounded-full">
+                  Добавить резюме
                 </button>
               </ng-container>
             </ng-container>
@@ -45,7 +51,7 @@ export class HeaderComponent implements OnInit {
   user$: Observable<any>;
   userName: string = '';
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private router: Router) {
     this.user$ = this.authService.currentUser;
   }
 
@@ -63,6 +69,14 @@ export class HeaderComponent implements OnInit {
     const value = (event.target as HTMLSelectElement).value;
     if (value === 'logout') {
       this.authService.logout();
+    } else if (value === 'profile') {
+      this.user$.subscribe(user => {
+        if (user.type === 'jobSeeker') {
+          this.router.navigate(['/admin/jobseeker']);
+        } else if (user.type === 'employer') {
+          this.router.navigate(['/admin/employer/']);
+        }
+      })
     }
   }
 }

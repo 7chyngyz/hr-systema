@@ -75,10 +75,10 @@ export class RegisterComponent {
 
     if (this.role === 'jobseeker') {
       this.authService.registerJobSeeker(this.firstName, this.email, this.password);
-      this.router.navigate(['/profile']);
+      this.router.navigate(['/admin/jobseeker']);
     } else {
       this.authService.registerEmployer(this.companyName, this.companyEmail, this.companyPassword);
-      this.router.navigate(['/create-vacancy-company']);
+      this.router.navigate(['/admin/employer']);
     }
   }
 }

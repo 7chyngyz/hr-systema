@@ -24,7 +24,7 @@ export class AuthService {
           this.currentUserSubject.next(JSON.parse(storedUser));
         } catch (error) {
           console.error('Failed to parse user from localStorage', error);
-          this.currentUserSubject.next(null); // если не удалось разобрать, сбросим
+          this.currentUserSubject.next(null); 
         }
       }
     }
