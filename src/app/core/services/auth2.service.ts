@@ -2,11 +2,14 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 interface User {
+  id: number;
+  company?: string
   type: 'jobSeeker' | 'employer';
   name?: string;
   companyName?: string;
   email: string;
   password: string;
+  hasResume?: boolean; // Добавляем поле для отслеживания наличия резюме
 }
 
 @Injectable({
@@ -24,19 +27,32 @@ export class AuthService {
           this.currentUserSubject.next(JSON.parse(storedUser));
         } catch (error) {
           console.error('Failed to parse user from localStorage', error);
-          this.currentUserSubject.next(null); 
+          this.currentUserSubject.next(null);
         }
       }
     }
   }
 
   registerJobSeeker(name: string, email: string, password: string) {
-    const user: User = { type: 'jobSeeker', name, email, password };
+    const user: User = {
+      id: Date.now(),
+      type: 'jobSeeker',
+      name,
+      email,
+      password,
+      hasResume: false, // По умолчанию у соискателя нет резюме
+    };
     this.saveUser(user);
   }
 
   registerEmployer(companyName: string, email: string, password: string) {
-    const user: User = { type: 'employer', companyName, email, password };
+    const user: User = {
+      id: Date.now(),
+      type: 'employer',
+      companyName,
+      email,
+      password,
+    };
     this.saveUser(user);
   }
 
@@ -50,15 +66,14 @@ export class AuthService {
   login(email: string, password: string) {
     if (typeof window !== 'undefined' && window.localStorage) {
       const storedUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
-      console.log('Stored User:', storedUser); 
+      console.log('Stored User:', storedUser);
       if (storedUser.email === email && storedUser.password === password) {
         this.currentUserSubject.next(storedUser);
         return true;
       }
     }
-    return false; 
+    return false;
   }
-  
 
   logout() {
     if (typeof window !== 'undefined' && window.localStorage) {
@@ -70,5 +85,29 @@ export class AuthService {
   getUserType(): string | null {
     const user = this.currentUserSubject.value;
     return user ? user.type : null;
+  }
+
+  // Геттер для получения текущего пользователя
+  getCurrentUser(): User | null {
+    return this.currentUserSubject.value;
+  }
+
+  // Метод для проверки наличия резюме у соискателя
+  checkResume(userId: number): boolean {
+    // Для примера резюме сохраняем в localStorage
+    const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
+    if (user && user.id === userId) {
+      return user.hasResume ?? false; // Возвращаем true, если резюме есть, иначе false
+    }
+    return false;
+  }
+
+  // Метод для обновления статуса резюме
+  updateResumeStatus(hasResume: boolean) {
+    const user = this.currentUserSubject.value;
+    if (user) {
+      user.hasResume = hasResume;
+      this.saveUser(user); // Сохраняем обновленный статус
+    }
   }
 }

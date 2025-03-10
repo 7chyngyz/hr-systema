@@ -9,12 +9,14 @@ import { RegisterModule } from './pages/register/register.module';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { AdminModule } from './pages/admin/admin.module';
+import { AllVacanciesComponent } from './pages/all-vacancies/all-vacancies.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
+    AllVacanciesComponent
   ],
   imports: [
     BrowserModule,
@@ -22,6 +24,7 @@ import { FormsModule } from '@angular/forms';
     LayoutModule,
     HomePageModule,
     RegisterModule,
+    AdminModule,
     RouterModule,
     HttpClientModule,
     CommonModule, 

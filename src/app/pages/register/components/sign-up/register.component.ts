@@ -74,9 +74,20 @@ export class RegisterComponent {
     }
 
     if (this.role === 'jobseeker') {
+      // Регистрация соискателя
       this.authService.registerJobSeeker(this.firstName, this.email, this.password);
-      this.router.navigate(['/admin/jobseeker']);
-    } else {
+
+      // Проверка наличия резюме
+      const user = this.authService.getCurrentUser();
+      if (user && !this.authService.checkResume(user.id)) {
+        // Если нет резюме, перенаправляем на создание резюме
+        this.router.navigate(['/admin/jobseeker/create-resume']);
+      } else {
+        // Если резюме есть, перенаправляем в профиль
+        this.router.navigate(['/admin/profile']);
+      }
+    } else if (this.role === 'employer') {
+      // Регистрация работодателя
       this.authService.registerEmployer(this.companyName, this.companyEmail, this.companyPassword);
       this.router.navigate(['/admin/employer']);
     }

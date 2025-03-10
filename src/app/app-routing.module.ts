@@ -4,42 +4,45 @@ import { HomePageComponent } from './pages/home/home-page.components';
 import { LoginComponent } from './pages/register/components/sign-in/login.component';
 import { ResetPasswordComponent } from './pages/register/components/sign-in/reset-password.component';
 import { RegisterComponent } from './pages/register/components/sign-up/register.component';
-import { VacanciesComponent } from './pages/vacancies/vacancies.component';
-import { JobSeekerProfileComponent } from './pages/admin/jobseeker/jobSeeker-admin.component';
-import { SkillsComponent } from './pages/admin/jobseeker/profile/prof-skills/skills.component';
-import { PersonalInfoComponent } from './pages/admin/jobseeker/profile/personal-info/personal-info.component';
-import { ProfileComponent } from './pages/admin/jobseeker/profile/profile.component';
-import { ResumeComponent } from './pages/admin/jobseeker/resume.component';
+import { AdminComponent } from './pages/admin/admin.component';
+import { EditVacancyComponent } from './pages/admin/employer/components/edit-vacancy/edit-vacancy.component';
+import { CreateVacanciesComponent } from './pages/admin/employer/components/create-vacancies/create-vacancies.component';
+import { MyVacanciesComponent } from './pages/admin/employer/components/my-vacancy.component.ts/my-vacancies.component';
+import { ResumeComponent } from './pages/admin/jobseeker/components/profile/resume.component';
+import { CreateProfile } from './pages/admin/jobseeker/components/create-profile/create-profile.component';
+import { EditProfileComponent } from './pages/admin/jobseeker/components/edit-profile/edit-profile.component';
+import { AllVacanciesComponent } from './pages/all-vacancies/all-vacancies.component';
 
 const routes: Routes = [
   { path: '', component: HomePageComponent },
-  { path: 'create-vacancy', component: VacanciesComponent },
+  { path: 'create-vacancy', component: CreateVacanciesComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
+  { path: 'vacancies', component: AllVacanciesComponent },
 
-  // Роутинг для Job Seeker Profile
+  // Админ страница соискателя
   {
-    path: 'admin/jobseeker', component: JobSeekerProfileComponent,
+    path: 'admin/jobseeker',
+    component: AdminComponent,
     children: [
-      { path: '', redirectTo: 'resume', pathMatch: 'full' },
-      { path: 'resume', component: ResumeComponent },
-      { path: 'profile', component: ProfileComponent },
-      { path: 'vacancies', component: VacanciesComponent }, // Страница вакансий
-      { path: 'applications', component: ProfileComponent }, // Страница откликов, используем тот же компонент
+      { path: 'profile', component: ResumeComponent },
+      { path: 'create-profile', component: CreateProfile },
+      { path: 'edit-profile', component: EditProfileComponent },
     ]
   },
 
-  // Роутинг для создания профиля
+  // Админ страница работодателя
   {
-    path: 'create', component: ProfileComponent,
+    path: 'admin/employer',
+    component: AdminComponent, 
     children: [
-      { path: '', redirectTo: 'personal-info', pathMatch: 'full' },
-      { path: 'personal-info', component: PersonalInfoComponent },
-      { path: 'skills', component: SkillsComponent },
+      { path: 'my-vacancies', component: MyVacanciesComponent },
+      { path: 'edit-vacancy/:id', component: EditVacancyComponent },
     ]
   }
 ];
+
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
