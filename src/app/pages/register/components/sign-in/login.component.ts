@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth2.service';
 
 @Component({
@@ -31,14 +32,16 @@ import { AuthService } from '../../../../core/services/auth2.service';
           Продолжить с LinkedIn
         </button>
     </div>
+    <p *ngIf="loginError" class="text-red-500 mt-4">Ошибка входа: Неверный email или пароль</p>
   </section>
   `,
 })
 export class LoginComponent {
   email: string = ''; 
   password: string = ''; 
+  loginError: boolean = false;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   onLogin() {
     console.log('Email:', this.email);
@@ -46,10 +49,10 @@ export class LoginComponent {
     
     const isLoggedIn = this.authService.login(this.email, this.password);
     if (isLoggedIn) {
-      console.log('Вход успешен');
+      console.log('Login successful, navigating to dashboard');
+      this.router.navigate(['/']);
     } else {
-      console.error('Ошибка входа: неверные данные');
-    }
+      console.error('Login failed');
+    }    
   }
-  
 }

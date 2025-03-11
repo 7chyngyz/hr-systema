@@ -12,6 +12,8 @@ import { ResumeComponent } from './pages/admin/jobseeker/components/profile/resu
 import { CreateProfile } from './pages/admin/jobseeker/components/create-profile/create-profile.component';
 import { EditProfileComponent } from './pages/admin/jobseeker/components/edit-profile/edit-profile.component';
 import { AllVacanciesComponent } from './pages/all-vacancies/all-vacancies.component';
+import { VacancyDetailComponent } from './pages/all-vacancies/vacancy-details/vacancy-detail.component';
+import { MyResponsesComponent } from './pages/admin/jobseeker/components/my-responses/my-responses.component';
 
 const routes: Routes = [
   { path: '', component: HomePageComponent },
@@ -20,6 +22,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'vacancies', component: AllVacanciesComponent },
+  { path: 'vacancies/:id', component: VacancyDetailComponent },
 
   // Админ страница соискателя
   {
@@ -29,6 +32,7 @@ const routes: Routes = [
       { path: 'profile', component: ResumeComponent },
       { path: 'create-profile', component: CreateProfile },
       { path: 'edit-profile', component: EditProfileComponent },
+      { path: 'my-responses', component: MyResponsesComponent },
     ]
   },
 

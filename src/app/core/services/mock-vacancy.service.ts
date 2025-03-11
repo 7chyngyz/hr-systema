@@ -6,49 +6,54 @@ import { Vacancy } from '../models/types.models';
   providedIn: 'root',
 })
 export class MockVacancyService {
-  private vacanciesKey = 'vacancies';  // Название ключа для хранения вакансий в localStorage
+  private vacanciesKey = 'vacancies';  
 
-  // Проверка на наличие localStorage (только в браузере)
+  
   private isBrowser(): boolean {
     return typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
   }
 
-  // Получение всех вакансий из localStorage
+  
   getAllVacancies(): Observable<Vacancy[]> {
     if (!this.isBrowser()) {
-      return of([]);  // Возвращаем пустой массив, если не в браузере
+      return of([]);  
     }
 
     const vacancies = JSON.parse(localStorage.getItem(this.vacanciesKey) || '[]');
-    return of(vacancies);  // Возвращаем все вакансии
+    return of(vacancies);  
   }
 
-  // Получение вакансий только для определенного работодателя
   getVacanciesByEmployer(employerId: number): Observable<Vacancy[]> {
     if (!this.isBrowser()) {
-      return of([]);  // Возвращаем пустой массив, если не в браузере
+      return of([]);  
     }
 
     const vacancies = JSON.parse(localStorage.getItem(this.vacanciesKey) || '[]');
-    return of(vacancies.filter((vacancy: Vacancy) => vacancy.employerId === employerId));  // Фильтруем вакансии по employerId
+    return of(vacancies.filter((vacancy: Vacancy) => vacancy.employerId === employerId));  
   }
 
-  // Метод для удаления вакансии
+  getVacancyById(id: number): Observable<Vacancy | null> {
+    if (!this.isBrowser()) return of(null);
+  
+    const vacancies = JSON.parse(localStorage.getItem(this.vacanciesKey) || '[]');
+    const vacancy = vacancies.find((v: Vacancy) => v.id === id) || null;
+    return of(vacancy);
+  }  
+
   deleteVacancy(vacancyId: number): Observable<void> {
     if (!this.isBrowser()) {
-      return of();  // Возвращаем пустой Observable, если не в браузере
+      return of();  
     }
 
     const vacancies = JSON.parse(localStorage.getItem(this.vacanciesKey) || '[]');
-    const updatedVacancies = vacancies.filter((vacancy: Vacancy) => vacancy.id !== vacancyId);  // Убираем вакансию с таким id
+    const updatedVacancies = vacancies.filter((vacancy: Vacancy) => vacancy.id !== vacancyId);
     localStorage.setItem(this.vacanciesKey, JSON.stringify(updatedVacancies));
-    return of();  // Просто возвращаем пустой Observable
+    return of();  
   }
 
-  // Метод для создания новой вакансии
   createVacancy(newVacancy: Vacancy): Observable<Vacancy> {
     if (!this.isBrowser()) {
-      return of(newVacancy);  // Возвращаем переданную вакансию, если не в браузере
+      return of(newVacancy);  
     }
 
     const vacancies = JSON.parse(localStorage.getItem(this.vacanciesKey) || '[]');
@@ -57,22 +62,21 @@ export class MockVacancyService {
     return of(newVacancy);
   }
 
-  // Метод для обновления вакансии
   updateVacancy(vacancyId: number, updatedVacancy: Vacancy): Observable<Vacancy | null> {
     if (!this.isBrowser()) {
-      return of(null);  // Возвращаем null, если не в браузере
+      return of(null);  
     }
 
     const vacancies = JSON.parse(localStorage.getItem(this.vacanciesKey) || '[]');
-    const index = vacancies.findIndex((vacancy: Vacancy) => vacancy.id === vacancyId);  // Ищем индекс вакансии по id
+    const index = vacancies.findIndex((vacancy: Vacancy) => vacancy.id === vacancyId); 
 
     if (index !== -1) {
-      // Если вакансия найдена, обновляем ее
+      
       vacancies[index] = { ...vacancies[index], ...updatedVacancy };
       localStorage.setItem(this.vacanciesKey, JSON.stringify(vacancies));
-      return of(vacancies[index]);  // Возвращаем обновленную вакансию
+      return of(vacancies[index]);  
     }
 
-    return of(null);  // Если вакансия не найдена
+    return of(null);  
   }
 }

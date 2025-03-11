@@ -8,8 +8,8 @@ import { ActivatedRoute } from '@angular/router';
   <section class="bg-slate-100 py-[30px] px-[150px]">
     <div class="w-full h-[70px] rounded-md bg-white flex items-center px-[50px] gap-16">
     <ng-container *ngIf="role === 'jobseeker'">
-      <a class="text-[16px] font-bold hover:text-blue-600 hover:border-b" [routerLink]="['/admin', role, 'my-vacancies']">Вакансии</a>
-      <a class="text-[16px] font-bold hover:text-blue-600 hover:border-b" [routerLink]="['/admin', role, 'responses']">Мои Отклики</a>
+      <a class="text-[16px] font-bold hover:text-blue-600 hover:border-b" [routerLink]="['/admin', role, 'vacancies']">Вакансии</a>
+      <a class="text-[16px] font-bold hover:text-blue-600 hover:border-b" [routerLink]="['/admin', role, 'my-responses']">Мои Отклики</a>
     </ng-container>
 
     <ng-container *ngIf="role === 'employer'">

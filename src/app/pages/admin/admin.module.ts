@@ -9,11 +9,32 @@ import { EditVacancyComponent } from "./employer/components/edit-vacancy/edit-va
 import { ResumeComponent } from "./jobseeker/components/profile/resume.component";
 import { CreateProfile } from "./jobseeker/components/create-profile/create-profile.component";
 import { EditProfileComponent } from "./jobseeker/components/edit-profile/edit-profile.component";
+import { MyResponsesComponent } from "./jobseeker/components/my-responses/my-responses.component";
+import { CandidatesComponent } from "./employer/components/candidates/candidates.component";
 
 @NgModule({
-    declarations: [AdminComponent, MyVacanciesComponent, CreateVacanciesComponent, EditVacancyComponent, CreateProfile, ResumeComponent, EditProfileComponent],
+    declarations: [
+        AdminComponent,
+        MyVacanciesComponent, 
+        CreateVacanciesComponent, 
+        EditVacancyComponent, 
+        CreateProfile,
+        ResumeComponent,
+        EditProfileComponent, 
+        MyResponsesComponent, 
+        CandidatesComponent,
+    ],
     imports: [RouterModule.forChild([]), CommonModule, FormsModule],
-    exports: [AdminComponent, MyVacanciesComponent, CreateVacanciesComponent, EditVacancyComponent, CreateProfile, ResumeComponent, EditProfileComponent]
+    exports: [
+        AdminComponent, 
+        MyVacanciesComponent,
+        CreateVacanciesComponent, 
+        EditVacancyComponent, 
+        CreateProfile, 
+        ResumeComponent, 
+        EditProfileComponent, 
+        MyResponsesComponent
+    ]
 }) 
 
 export class AdminModule {}

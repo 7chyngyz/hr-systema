@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Vacancy } from "../../core/models/types.models";
 import { MockVacancyService } from "../../core/services/mock-vacancy.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-all-vacancies',
@@ -16,8 +17,12 @@ import { MockVacancyService } from "../../core/services/mock-vacancy.service";
       </div>
 
       <section class="text-gray-900">
-        <div *ngFor="let vacancy of vacancies" class="flex items-center h-[200px] bg-gray-100 p-4 rounded-lg shadow-md mb-8">
-          <!-- <img src="{{ vacancy.companyLogo }}" alt="{{ vacancy.company }}" class="w-12 h-12 rounded-full mr-4"> -->
+        <div 
+          *ngFor="let vacancy of vacancies" 
+          class="flex items-center h-[200px] bg-gray-100 p-4 rounded-lg shadow-md mb-8 cursor-pointer transition hover:bg-gray-200"
+          (click)="goToDetails(vacancy.id)"
+        >
+          <img src="{{ vacancy.companyLogo }}" alt="{{ vacancy.company }}" class="w-12 h-12 rounded-full mr-4">
           <div class="flex gap-36 w-full">
             <div class="flex flex-col gap-3">
               <span class="text-lg opacity-[0.6]">Компания</span>
@@ -47,7 +52,7 @@ import { MockVacancyService } from "../../core/services/mock-vacancy.service";
 export class AllVacanciesComponent implements OnInit {
   vacancies: Vacancy[] = [];
 
-  constructor(private vacancyService: MockVacancyService) {}
+  constructor(private vacancyService: MockVacancyService, private router: Router) {}
 
   ngOnInit() {
     this.loadAllVacancies();
@@ -57,5 +62,9 @@ export class AllVacanciesComponent implements OnInit {
     this.vacancyService.getAllVacancies().subscribe(vacancies => {
       this.vacancies = vacancies;
     });
+  }
+
+  goToDetails(id: number) {
+    this.router.navigate(['/vacancies', id]);
   }
 }

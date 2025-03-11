@@ -11,12 +11,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { AdminModule } from './pages/admin/admin.module';
 import { AllVacanciesComponent } from './pages/all-vacancies/all-vacancies.component';
+import { VacancyDetailComponent } from './pages/all-vacancies/vacancy-details/vacancy-detail.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    AllVacanciesComponent
+    AllVacanciesComponent,
+    VacancyDetailComponent,
   ],
   imports: [
     BrowserModule,

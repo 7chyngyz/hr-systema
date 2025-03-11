@@ -83,6 +83,7 @@ export class CreateVacanciesComponent implements OnInit {
     employmentType: 'full-time',
     experience: 0,
     salary: 0,
+    applicationDate: new Date().toISOString(),
   };
 
   constructor(
